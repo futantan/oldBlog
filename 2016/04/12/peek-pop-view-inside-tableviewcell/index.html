@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="fM7xhodGN-lmnxxoctwYISpLNlWpPA7lgcadx01MSa8" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Swift,iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Prayer's blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="原文链接SwiftGG 链接作者：Natasha原文日期：2016-02-13译者：Prayer校对：小锅定稿：shanks">
+<meta name="keywords" content="Swift,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS9：预览特定的 UITableViewCell 视图">
+<meta property="og:url" content="http://www.futantan.com/2016/04/12/peek-pop-view-inside-tableviewcell/index.html">
+<meta property="og:site_name" content="Prayer&#39;s blog">
+<meta property="og:description" content="原文链接SwiftGG 链接作者：Natasha原文日期：2016-02-13译者：Prayer校对：小锅定稿：shanks">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-1.gif">
+<meta property="og:image" content="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-2.gif">
+<meta property="og:image" content="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-3.gif">
+<meta property="og:image" content="https://www.natashatherobot.com/wp-content/uploads/peekpop.jpg">
+<meta property="og:updated_time" content="2017-10-27T09:49:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS9：预览特定的 UITableViewCell 视图">
+<meta name="twitter:description" content="原文链接SwiftGG 链接作者：Natasha原文日期：2016-02-13译者：Prayer校对：小锅定稿：shanks">
+<meta name="twitter:image" content="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-1.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.futantan.com/2016/04/12/peek-pop-view-inside-tableviewcell/"/>
+
+
+
+
+
+  <title>iOS9：预览特定的 UITableViewCell 视图 | Prayer's blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56681721-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Prayer's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.futantan.com/2016/04/12/peek-pop-view-inside-tableviewcell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Prayer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://7qnang.com1.z0.glb.clouddn.com/16-7-25/56962042.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Prayer's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS9：预览特定的 UITableViewCell 视图</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-12T22:40:57+08:00">
+                2016-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://www.natashatherobot.com/peek-pop-view-inside-tableviewcell/" target="_blank" rel="external">原文链接</a><br><a href="http://swift.gg/2016/04/12/peek-pop-view-inside-tableviewcell/" target="_blank" rel="external">SwiftGG 链接</a><br>作者：Natasha<br>原文日期：2016-02-13<br>译者：<a href="http://www.futantan.com/">Prayer</a><br>校对：<a href="http://www.swiftyper.com/" target="_blank" rel="external">小锅</a><br>定稿：<a href="http://codebuild.me/" target="_blank" rel="external">shanks</a></p>
+<a id="more"></a>
+<p>在过去的几天中，我一直忙于开发 <a href="https://github.com/NatashaTheRobot/trySwiftApp" target="_blank" rel="external">try! Swift 会议的官方 App</a>（只剩两周半的时间了，我的天哪😱）！项目中一大亮点就是，我要实现在 app 中使用 3D Touch 来支持演讲者和展示的内容的弹窗预览（Peek &amp; Pop）。幸运的是，<a href="https://twitter.com/allonsykraken" target="_blank" rel="external">@allonsykraken</a>的博文<a href="http://krakendev.io/peek-pop/" target="_blank" rel="external">Peek &amp; Pop Spirit Guide</a>让这个任务完成起来比较简单，为 table view 主视图添加 3D Touch 仅仅花费了几分钟时间就搞定了。</p>
+<center><br><img src="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-1.gif" alt="1.gif"><br></center>
+
+<p>然而，在 Q&amp;A 模块中遇到了一些问题。我希望在 cell 中特定的视图上——<strong>演讲者的图片</strong>——来使用 peek &amp; pop，而不是像其他模块那样，在整个 cell 上使用。</p>
+<center><br><img src="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-2.gif" alt="2.gif"><br></center>
+
+<p>因为这个花费了很长时间才解决，所以我想把它记录下来。（在阅读本文之前，请先阅读<a href="http://krakendev.io/peek-pop/" target="_blank" rel="external">Peek &amp; Pop Spirit Guide</a>）</p>
+<h2 id="问题所在"><a href="#问题所在" class="headerlink" title="问题所在"></a>问题所在</h2><p>为了能够使用 Peak &amp; Pop 功能，我们需要遵循 <strong>UIViewControllerPreviewingDelegate</strong> 协议——这个协议会告知我们用户使用 3D Touch 功能点击了哪儿，并且在这里返回相应的 ViewController 实例。</p>
+<p>因为我的这些图片存在于 cell 中，需要能够区别出用户使用 3D Touch 点击了哪个演讲者的图片，这里我让 cell 遵循 UIViewControllerPreviewingDelegate：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// QASessionTableViewCell</span></div><div class="line"><span class="comment">// QASessionTableViewCell here: https://github.com/NatashaTheRobot/trySwiftApp/blob/master/trySwift/QASessionTableViewCell.swift</span></div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">QASessionSpeakerPopDelegate</span>: <span class="title">class</span> </span>&#123;</div><div class="line">    <span class="comment">// view controller 将遵循该协议，来正确的设置导航视图</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">onCommitViewController</span><span class="params">(viewController: UIViewController)</span></span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">QASessionTableViewCell</span>: <span class="title">UIViewControllerPreviewingDelegate</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">// UIViewControllerPreviewingDelegate conformance</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</div><div class="line">        </div><div class="line">        <span class="keyword">let</span> viewsTo3DTouch = [speaker1ImageView, speaker2ImageView, speaker3ImageView]</div><div class="line">        </div><div class="line">        <span class="keyword">for</span> (index, view) <span class="keyword">in</span> viewsTo3DTouch.<span class="built_in">enumerate</span>() <span class="keyword">where</span> touchedView(view, location: location) &#123;</div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> speaker = qaSession?.speakers[index] &#123;</div><div class="line">                <span class="comment">// 返回显示 peek &amp; pop 功能所需要的控制器</span></div><div class="line">                <span class="keyword">return</span> viewControllerForSpeaker(speaker)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="comment">// 如果用户选择 pop 出视图，我们需要跳转到相应的视图控制器</span></div><div class="line">        <span class="comment">// 在设置 cell 的时候，delegate 将会被赋值</span></div><div class="line">        delegate?.onCommitViewController(viewControllerToCommit)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// helper methods</span></div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">touchedView</span><span class="params">(view: UIView, location: CGPoint)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">let</span> locationInView = view.convertPoint(location, fromView: contentView)</div><div class="line">        <span class="keyword">return</span> <span class="type">CGRectContainsPoint</span>(view.bounds, locationInView)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">viewControllerForSpeaker</span><span class="params">(speaker: Speaker)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</div><div class="line">        <span class="keyword">let</span> speakerDetailVC = <span class="type">SpeakerDetailViewController</span>()</div><div class="line">        speakerDetailVC.speaker = speaker</div><div class="line">        <span class="keyword">return</span> speakerDetailVC</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// QASessionsTableViewController</span></div><div class="line"><span class="comment">// 全部的代码地址: https://github.com/NatashaTheRobot/trySwiftApp/blob/master/trySwift/QASessionsTableViewController.swift</span></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">QASessionsTableViewController</span>: <span class="title">QASessionSpeakerPopDelegate</span> </span>&#123;</div><div class="line"> </div><div class="line">    <span class="comment">// 当视图 pop 出来的时候，view controller 负责处理跳转</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">onCommitViewController</span><span class="params">(viewController: UIViewController)</span></span> &#123;</div><div class="line">        navigationController?.pushViewController(viewController, animated: <span class="literal">true</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>问题在于，想要使用 Peek &amp; Pop 功能，我们需要使用 <strong>registerForPreviewingWithDelegate</strong> 来注册视图和设置代理，但是 registerForPreviewingWithDelegate 是 UIViewController 中的方法，所以我们不能够在 cell 的代码中注册视图！</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>问题的关键在于，我们现在需要 view controller 中 <strong>注册每一个 cell</strong>（而不是像 Schedule 或 Speaker 模块那样直接注册整个 table view）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// QASessionsTableViewController</span></div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">QASessionsTableViewController</span>: <span class="title">UITableViewController</span> </span>&#123;</div><div class="line">    <span class="comment">// 代码有删减</span></div><div class="line">    <span class="comment">// 全部的代码地址: https://github.com/NatashaTheRobot/trySwiftApp/blob/master/trySwift/QASessionsTableViewController.swift</span></div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</div><div class="line">        <span class="keyword">let</span> cell = tableView.dequeueReusableCellWithIdentifier(<span class="type">String</span>(<span class="type">QASessionTableViewCell</span>), forIndexPath: indexPath) <span class="keyword">as</span>! <span class="type">QASessionTableViewCell</span></div><div class="line">        </div><div class="line">        <span class="keyword">let</span> qaSession = dataSource.qaSessions[indexPath.section]</div><div class="line">        cell.configure(withQASession: qaSession, delegate: <span class="keyword">self</span>)</div><div class="line">        </div><div class="line">        <span class="comment">// 这是见证奇迹的时刻</span></div><div class="line">        <span class="comment">// 我们需要注册每一个 cell</span></div><div class="line">        <span class="keyword">if</span> traitCollection.forceTouchCapability == .<span class="type">Available</span> &#123;</div><div class="line">            registerForPreviewingWithDelegate(cell, sourceView: cell.contentView)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">return</span> cell</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p><a href="https://twitter.com/davedelong/status/698527490428383232" target="_blank" rel="external">@davedelong 指出</a><strong>在 cell 中创建添加到 navigation 中的控制器看起来不是一个明智的选择。</strong> 我完全同意他的观点！但是写代码的时候在 deadline 的压迫下，我没有想到更好的实现方式。幸运的是，<a href="https://twitter.com/NatashaTheRobot/status/698530746449817600" target="_blank" rel="external">@davedelong 提出了一种更好的解决办法</a>，通过这种方式，可以让这些代码保留在应有的 view controller 中！</p>
+<p>下面的代码经过了一些重构，希望你能够 get 到其中的精髓！</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// QASessionsTableViewController</span></div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">QASessionsTableViewController</span>: <span class="title">UITableViewController</span> </span>&#123;</div><div class="line"> </div><div class="line">    <span class="keyword">var</span> dataSource: <span class="type">QASessionDataSourceProtocol</span>!</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        <span class="comment">// other setup here</span></div><div class="line"> </div><div class="line">        <span class="comment">// 只需要为 force touch 注册整个 table view</span></div><div class="line">        <span class="comment">// 不需要分别注册单个的 cell</span></div><div class="line">        <span class="keyword">if</span> traitCollection.forceTouchCapability == .<span class="type">Available</span> &#123;</div><div class="line">            registerForPreviewingWithDelegate(<span class="keyword">self</span>, sourceView: tableView)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">// 代码有删减</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="comment">// MARK: Force Touch on Speaker Images</span></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">QASessionsTableViewController</span>: <span class="title">UIViewControllerPreviewingDelegate</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> indexPath = tableView.indexPathForRowAtPoint(location) &#123;</div><div class="line"> </div><div class="line">            <span class="keyword">let</span> cell = tableView.cellForRowAtIndexPath(indexPath) <span class="keyword">as</span>! <span class="type">QASessionTableViewCell</span></div><div class="line">            </div><div class="line">            <span class="keyword">let</span> viewsTo3DTouch = [cell.speaker1ImageView, cell.speaker2ImageView, cell.speaker3ImageView]</div><div class="line">            <span class="keyword">for</span> (index, view) <span class="keyword">in</span> viewsTo3DTouch.<span class="built_in">enumerate</span>() <span class="keyword">where</span> touchedView(view, location: location) &#123;</div><div class="line">                </div><div class="line">                <span class="comment">// 只将图片清晰地显示，其他内容将会变得模糊</span></div><div class="line">                <span class="comment">// 需要将 image view 的坐标转化为在 table view 坐标系中的坐标 </span></div><div class="line">                <span class="comment">// 如果你有更好的坐标转换方式，请告诉我！</span></div><div class="line">                <span class="keyword">let</span> viewRectInTableView = tableView.convertRect(view.frame, fromCoordinateSpace: view.superview!)</div><div class="line">                previewingContext.sourceRect = viewRectInTableView</div><div class="line">                </div><div class="line">                <span class="comment">// 设置需要显示的 view controller</span></div><div class="line">                <span class="keyword">let</span> qaSession = dataSource.qaSessions[indexPath.section]</div><div class="line">                <span class="keyword">let</span> speaker = qaSession.speakers[index]</div><div class="line">                <span class="keyword">return</span> viewControllerForSpeaker(speaker)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController)</span></span> &#123;</div><div class="line">        navigationController?.pushViewController(viewControllerToCommit, animated: <span class="literal">true</span>)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">touchedView</span><span class="params">(view: UIView, location: CGPoint)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">let</span> locationInView = view.convertPoint(location, fromView: tableView)</div><div class="line">        <span class="keyword">return</span> <span class="type">CGRectContainsPoint</span>(view.bounds, locationInView)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">viewControllerForSpeaker</span><span class="params">(speaker: Speaker)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</div><div class="line">        <span class="keyword">let</span> speakerDetailVC = <span class="type">SpeakerDetailViewController</span>()</div><div class="line">        speakerDetailVC.speaker = speaker</div><div class="line">        <span class="keyword">return</span> speakerDetailVC</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面是效果图——请注意，选中的图片之外的内容才会变得模糊！</p>
+<center><br><img src="http://swiftgg-main.b0.upaiyun.com/img/peek-pop-view-inside-tableviewcell-3.gif" alt="3.gif"><br></center>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>所以在某个特定的视图上使用 3D Touch 功能并非难事！一般来说，实现 3D Touch 非常简单和有趣。我强烈推荐您在 app 中添加 3D Touch 的功能。</p>
+<center><br><img src="https://www.natashatherobot.com/wp-content/uploads/peekpop.jpg" alt="peak and pop all the things"><br></center>
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章帮助您解决了问题，可以考虑请我喝杯咖啡</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://futantan.qiniudn.com/wechat_pay.JPG" alt="Prayer 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/06/create-a-slack-bot/" rel="next" title="铲屎官翻身记（Slack bot）">
+                <i class="fa fa-chevron-left"></i> 铲屎官翻身记（Slack bot）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/14/NSTimer-tips/" rel="prev" title="NSTimer 使用锦囊">
+                NSTimer 使用锦囊 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://7qnang.com1.z0.glb.clouddn.com/16-7-25/56962042.jpg"
+                alt="Prayer" />
+            
+              <p class="site-author-name" itemprop="name">Prayer</p>
+              <p class="site-description motion-element" itemprop="description">DO COOL THINGS THAT MATTER</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/futantan" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/EclipsePrayer" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/EclipsePrayer" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                小伙伴们
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://xiaolei.tech/" title="巅峰博士" target="_blank">巅峰博士</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://numbbbbb.com" title="梁杰" target="_blank">梁杰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ijack.pw" title="Jack Alan" target="_blank">Jack Alan</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.saitjr.com" title="Sai" target="_blank">Sai</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.swiftyper.com" title="小锅" target="_blank">小锅</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.justzht.com" title="JustZht" target="_blank">JustZht</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://sergiochan.xyz" title="Sergio Chan" target="_blank">Sergio Chan</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.martinrgb.com" title="MartinRGB" target="_blank">MartinRGB</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="blog.dianqk.org" title="DianQK" target="_blank">DianQK</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.cee.moe" title="Cee" target="_blank">Cee</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://swift.gg" title="SwiftGG" target="_blank">SwiftGG</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yoyoyohamapi.me" title="吴小虫" target="_blank">吴小虫</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题所在"><span class="nav-number">1.</span> <span class="nav-text">问题所在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Prayer</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
