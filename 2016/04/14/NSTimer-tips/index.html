@@ -314,6 +314,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/04/14/NSTimer-tips/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/04/14/NSTimer-tips/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -366,10 +377,10 @@
 <p>但是，大家试试点击 <code>fire</code> 按钮，然后直接用右滑返回手势将 VC 移出，会发现，控制台不停的在输出，VC 的<code>deinit</code>方法并没有调用，我们的 timer 并没有停止！</p>
 <p>原因也是显而易见的，因为 Timer 没有被停止，而 Timer 因为 target action 的关系，有拥有 VC 的强引用，所以一直 VC 一直得不到释放，除非我们手动调用 invalidate 方法。</p>
 <p>为了让 Timer 不持有 VC 的强引用，我们使用一个闭包来替代 target action 的方式：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSTimer</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">scheduledTimerWithTimeInterval</span>(<span class="title">timeInterval</span>: <span class="title">NSTimeInterval</span>, <span class="title">repeats</span>: <span class="title">Bool</span> = <span class="title">false</span>, <span class="title">block</span>: () -&gt; ()) -&gt; <span class="title">NSTimer</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> scheduledTimerWithTimeInterval(timeInterval,</div><div class="line">                                          target: <span class="keyword">self</span>,</div><div class="line">                                          selector: #selector(_executeBlockFromTimer),</div><div class="line">                                          userInfo: block,</div><div class="line">                                          repeats: repeats)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">_executeBlockFromTimer</span>(<span class="title">timer</span>: <span class="title">NSTimer</span>) </span>&#123;</div><div class="line">    <span class="comment">// execute block</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSTimer</span> </span>&#123;</div><div class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">scheduledTimerWithTimeInterval</span>(<span class="title">timeInterval</span>: <span class="title">NSTimeInterval</span>, <span class="title">repeats</span>: <span class="title">Bool</span> = <span class="title">false</span>, <span class="title">block</span>: () -&gt; ()) -&gt; <span class="title">NSTimer</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> scheduledTimerWithTimeInterval(timeInterval,</div><div class="line">                                          target: <span class="keyword">self</span>,</div><div class="line">                                          selector: #selector(_executeBlockFromTimer),</div><div class="line">                                          userInfo: block,</div><div class="line">                                          repeats: repeats)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">func</span> _executeBlockFromTimer(<span class="title">timer</span>: <span class="title">NSTimer</span>) </span>&#123;</div><div class="line">    <span class="comment">// execute block</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>但是这里出现一个问题，<br><img src="/media/14605550546067.jpg" alt=""></p>
 <p>在 <a href="http://stackoverflow.com/questions/28211973/swift-closure-as-anyobject" target="_blank" rel="external">SOF</a> 上有个解决办法，加个中间层，修改后的代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSTimer</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FTTimerClosureWraper</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> (<span class="keyword">set</span>) <span class="keyword">var</span> timerClosure: () -&gt; ()</div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(timerClosure: () -&gt; () ) &#123;</div><div class="line">      <span class="keyword">self</span>.timerClosure = timerClosure</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">scheduledTimerWithTimeInterval</span>(<span class="title">timeInterval</span>: <span class="title">NSTimeInterval</span>, <span class="title">repeats</span>: <span class="title">Bool</span> = <span class="title">false</span>, <span class="title">block</span>: () -&gt; ()) -&gt; <span class="title">NSTimer</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> scheduledTimerWithTimeInterval(timeInterval,</div><div class="line">                                          target: <span class="keyword">self</span>,</div><div class="line">                                          selector: #selector(_executeBlockFromTimer),</div><div class="line">                                          userInfo: <span class="type">FTTimerClosureWraper</span>(timerClosure: block),</div><div class="line">                                          repeats: repeats)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">_executeBlockFromTimer</span>(<span class="title">timer</span>: <span class="title">NSTimer</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> timerClosureWraper = timer.userInfo <span class="keyword">as</span>? <span class="type">FTTimerClosureWraper</span> &#123;</div><div class="line">      timerClosureWraper.timerClosure()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSTimer</span> </span>&#123;</div><div class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FTTimerClosureWraper</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> (<span class="keyword">set</span>) <span class="keyword">var</span> timerClosure: () -&gt; ()</div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(timerClosure: () -&gt; () ) &#123;</div><div class="line">      <span class="keyword">self</span>.timerClosure = timerClosure</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">scheduledTimerWithTimeInterval</span>(<span class="title">timeInterval</span>: <span class="title">NSTimeInterval</span>, <span class="title">repeats</span>: <span class="title">Bool</span> = <span class="title">false</span>, <span class="title">block</span>: () -&gt; ()) -&gt; <span class="title">NSTimer</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> scheduledTimerWithTimeInterval(timeInterval,</div><div class="line">                                          target: <span class="keyword">self</span>,</div><div class="line">                                          selector: #selector(_executeBlockFromTimer),</div><div class="line">                                          userInfo: <span class="type">FTTimerClosureWraper</span>(timerClosure: block),</div><div class="line">                                          repeats: repeats)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">func</span> _executeBlockFromTimer(<span class="title">timer</span>: <span class="title">NSTimer</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> timerClosureWraper = timer.userInfo <span class="keyword">as</span>? <span class="type">FTTimerClosureWraper</span> &#123;</div><div class="line">      timerClosureWraper.timerClosure()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>添加上面的方法之后，我们就可以来使用它啦。将 <code>onFireButtonClicked</code> 方法中的 timer 改为如下：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">timer = <span class="type">NSTimer</span>.scheduledTimerWithTimeInterval(<span class="number">2</span>, repeats: <span class="literal">true</span>, block: &#123; </div><div class="line">      <span class="built_in">print</span>(<span class="string">"hey, our block"</span>)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
 <p> 这时候再使用右滑返回，发现会输出 “in deinit”，证明 VC 已经被正确的释放了。</p>
@@ -478,6 +489,16 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
 
   
 
@@ -836,6 +857,26 @@
 
   
 
+    
+      <script id="dsq-count-scr" src="https://futantan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.futantan.com/2016/04/14/NSTimer-tips/';
+          this.page.identifier = '2016/04/14/NSTimer-tips/';
+          this.page.title = 'NSTimer 使用锦囊';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://futantan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -848,10 +889,6 @@
   
 
 
-
-
-
-  
 
 
 
