@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="fM7xhodGN-lmnxxoctwYISpLNlWpPA7lgcadx01MSa8" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="npm, package, publish" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Prayer's blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="keywords" content="npm, package, publish">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迈向开源的第一步——发布属于自己的 npm 包">
+<meta property="og:url" content="http://www.futantan.com/2017/10/29/publish-npm-package/index.html">
+<meta property="og:site_name" content="Prayer&#39;s blog">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i0.wp.com/realityonweb.com/wp-content/uploads/2015/06/npm.logo_.png?resize=262%2C103">
+<meta property="og:updated_time" content="2017-11-14T06:31:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="迈向开源的第一步——发布属于自己的 npm 包">
+<meta name="twitter:image" content="https://i0.wp.com/realityonweb.com/wp-content/uploads/2015/06/npm.logo_.png?resize=262%2C103">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.futantan.com/2017/10/29/publish-npm-package/"/>
+
+
+
+
+
+  <title>迈向开源的第一步——发布属于自己的 npm 包 | Prayer's blog</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-56681721-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Prayer's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">爱这个世界</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.futantan.com/2017/10/29/publish-npm-package/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Prayer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/6268441">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Prayer's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">迈向开源的第一步——发布属于自己的 npm 包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-29T21:55:23+08:00">
+                2017-10-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/29/publish-npm-package/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/10/29/publish-npm-package/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://i0.wp.com/realityonweb.com/wp-content/uploads/2015/06/npm.logo_.png?resize=262%2C103" alt="NPM"></p>
+<a id="more"></a>
+<blockquote>
+<p>本文整理自 <a href="https://egghead.io/courses/publish-javascript-packages-on-npm" target="_blank" rel="noopener">egghead.io</a></p>
+</blockquote>
+<h2 id="添加版本控制"><a href="#添加版本控制" class="headerlink" title="添加版本控制"></a>添加版本控制</h2><p>输入以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir ftt-sensitive-words</span><br><span class="line">$ <span class="built_in">cd</span> ftt-sensitive-words </span><br><span class="line">$ git init</span><br><span class="line">$ git remote add origin git@github.com:futantan/ftt-sensitive-words.git</span><br><span class="line">$ touch README.md</span><br><span class="line">$ git add -A</span><br><span class="line">$ git commit -m <span class="string">"Initial commit"</span></span><br><span class="line">$ git push --<span class="built_in">set</span>-upstream origin master</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>同时需要在 .gitignore 文件中加入 node_modules 等目录和文件</p>
+</blockquote>
+<p>上述命令执行完毕之后，我们已经在 <code>github</code> 上初始化了我们的代码仓库，接下来需要初始化 <code>npm</code> 配置。</p>
+<h2 id="初始化-npm-配置"><a href="#初始化-npm-配置" class="headerlink" title="初始化 npm 配置"></a>初始化 npm 配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm init</span><br></pre></td></tr></table></figure>
+<p>在随后的问答中，填入你想要的信息，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">description: Filter out a list of sensitive words</span><br><span class="line">entry point: build/index.js</span><br><span class="line">keywords: filter, filtering, sensitive, words</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意这里的 <code>entry point</code>，我们会在后面解释</p>
+</blockquote>
+<h2 id="添加-build-脚本"><a href="#添加-build-脚本" class="headerlink" title="添加 build 脚本"></a>添加 build 脚本</h2><p>为了能够使用 <code>ES6</code> 的语言特性，我们将会使用 <code>babel</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install babel-cli babel-preset-latest --save-dev</span><br></pre></td></tr></table></figure>
+<p>然后在 <code>package.json</code> 的 <code>scripts</code> 中添加如下命令：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"build"</span>: <span class="string">"babel src -d build"</span></span><br></pre></td></tr></table></figure>
+<p>在运行 <code>npm run build</code> 之后，会将 <code>src</code> 目录中的代码「编译」（转换）之后放入 <code>build</code> 文件夹中。这也就是在第二步中，我们将 <code>entry point</code> 设置为 <code>build/index.js</code> 的原因。</p>
+<p>同时，需要为 <code>babel</code> 做一些配置，将下面的代码放入 <code>package.json</code> 中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"babel"</span>: &#123;</span><br><span class="line">  <span class="string">"presets"</span>: [</span><br><span class="line">    <span class="string">"latest"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>接下来新建 <code>src/index.js</code> 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> () =&gt; <span class="string">'hello'</span></span><br></pre></td></tr></table></figure>
+<p>这时我们运行 <code>npm run build</code>，就会在 <code>build/</code> 文件夹中找到转化之后的代码。</p>
+<h2 id="添加-dev-脚本"><a href="#添加-dev-脚本" class="headerlink" title="添加 dev 脚本"></a>添加 dev 脚本</h2><p>为了能够在每次改动 <code>src</code> 目录中代码的时候，自动运行 <code>build</code>，我们添加 <code>watch</code> 这个包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install watch --save-dev</span><br></pre></td></tr></table></figure>
+<p>在 <code>package.json</code> 的 <code>scripts</code> 中添加 <code>dev</code> 命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;dev&quot;: &quot;watch &apos;npm run build&apos; src&quot;</span><br></pre></td></tr></table></figure></p>
+<p>运行 <code>npm run dev</code>，现在可以修改一下 <code>src/index.js</code> 文件的内容，查看效果。</p>
+<h2 id="添加-test-脚本"><a href="#添加-test-脚本" class="headerlink" title="添加 test 脚本"></a>添加 test 脚本</h2><p>接下来为我们的项目添加 test 命令，这里我们使用 <code>jest</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install jest --save-dev</span><br></pre></td></tr></table></figure>
+<p>在 <code>package.json</code> 的 <code>scripts</code> 中添加 <code>test</code> 命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"test"</span>: <span class="string">"jest"</span></span><br></pre></td></tr></table></figure>
+<p>新建 <code>src/index.test.js</code> 文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* src/index.test.js */</span></span><br><span class="line"><span class="keyword">import</span> sensitiveWords <span class="keyword">from</span> <span class="string">'.'</span></span><br><span class="line"></span><br><span class="line">test(<span class="string">'says hello world'</span>, () =&gt; &#123;</span><br><span class="line">  expect(sensitiveWords()).toBe(<span class="string">'hello world'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>修改 <code>src/index.js</code> 文件的内容，来查看 <code>npm test</code> 的运行结果。和 <code>build</code> 命令一样，我们也可以监听文件的变化，自动运行测试命令。在 <code>package.json</code> 的 <code>scripts</code> 中添加如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;test:watch&quot;: &quot;npm test -- --watch&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="添加功能"><a href="#添加功能" class="headerlink" title="添加功能"></a>添加功能</h2><p>在开发的过程中，可以开两个 terminal 窗口，分别运行以下两个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run dev</span><br><span class="line">$ npm run test:watch</span><br></pre></td></tr></table></figure>
+<p>修改测试文件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* src/index.test.js */</span></span><br><span class="line"><span class="keyword">import</span> sensitiveWords <span class="keyword">from</span> <span class="string">'.'</span></span><br><span class="line"></span><br><span class="line">test(<span class="string">'replaces blacklisted words with aasterisks'</span>, () =&gt; &#123;</span><br><span class="line">  expect(sensitiveWords(</span><br><span class="line">    <span class="string">'The name of the NX will be the Nintedo Switch'</span>,</span><br><span class="line">    [<span class="string">'switch'</span>]</span><br><span class="line">  ))</span><br><span class="line">    .toBe(<span class="string">'The name of the NX will be the Nintedo ***'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>修改 <code>index.js</code> 文件内容：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* src/index.js */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> (content, words) =&gt; (</span><br><span class="line">  content.replace(</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">RegExp</span>(words.join(<span class="string">'|'</span>), <span class="string">'i'</span>),</span><br><span class="line">    <span class="string">'***'</span></span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>再添加一个测试用例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* src/index.test.js */</span></span><br><span class="line">test(<span class="string">'replaces multiple instances of blacklisted words'</span>, () =&gt; &#123;</span><br><span class="line">  expect(sensitiveWords(</span><br><span class="line">    <span class="string">'The name of the NX will be the Nintedo Switch. The switch will be awesome!'</span>,</span><br><span class="line">    [<span class="string">'switch'</span>]</span><br><span class="line">  ))</span><br><span class="line">    .toBe(<span class="string">'The name of the NX will be the Nintedo ***. The *** will be awesome!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这时候会发现测试挂了，第二个 <code>switch</code> 并没有被替换掉，（测试的重要性！）<br>修改 <code>index.js</code> 文件 <code>new RegExp(words.join(&#39;|&#39;), &#39;ig&#39;)</code><br>测试通过！！！</p>
+<h2 id="使用-npm-link-进行测试"><a href="#使用-npm-link-进行测试" class="headerlink" title="使用 npm link 进行测试"></a>使用 npm link 进行测试</h2><p>在将代码发布到 npm 之前，我们可以作为库的使用者，试着使用我们的库。<code>npm link</code> 可以满足我们的需求<br>name of the package: ftt-sensitive-words</p>
+<p>运行如下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm link</span><br><span class="line">/usr/local/lib/node_modules/ftt-sensitive-words -&gt; /Users/xxx/ftt-sensitive-words</span><br><span class="line">$ mkdir some-project</span><br><span class="line">$ cd some-project</span><br><span class="line">$ npm init -y</span><br></pre></td></tr></table></figure></p>
+<p>这时运行 <code>npm link ftt-sensitive-words</code>，就可以将我们之前写的包 link 到当前的 <code>node_modules</code> 中，新建一个 <code>index.js</code> 文件，使用一下我们的代码吧！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> senstiveWords = <span class="built_in">require</span>(<span class="string">'ftt-sensitive-words'</span>).default</span><br><span class="line"><span class="keyword">const</span> filtered = senstiveWords(</span><br><span class="line">  <span class="string">'The new apple macbook pro will have a touchbar'</span>,</span><br><span class="line">  [<span class="string">'pro'</span>, <span class="string">'touchbar'</span>]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(filtered)</span><br></pre></td></tr></table></figure>
+<p>$ node index.js</p>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p>为了能够让使用者更好地使用，在 <code>README.md</code> 中可以写一些使用的示例，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> senstiveWords = <span class="built_in">require</span>(<span class="string">'ftt-sensitive-words'</span>).default</span><br><span class="line"><span class="keyword">const</span> filtered = senstiveWords(</span><br><span class="line">  <span class="string">'The new apple macbook pro will have a touchbar'</span>,</span><br><span class="line">  [<span class="string">'pro'</span>, <span class="string">'touchbar'</span>]</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(filtered)</span><br><span class="line"><span class="comment">// The new apple macbook *** will have a ***</span></span><br></pre></td></tr></table></figure>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>在 <code>package.json</code> 的 <code>scripts</code> 中添加 <code>prepublish</code> 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;prepublish&quot;: &quot;npm run build&quot;</span><br></pre></td></tr></table></figure>
+<p>这样可以确保在 publish 之前，运行过 build。<br>这个时候还存在一个问题，我们的源码是在 <code>src</code> 文件中，我们希望库的使用者，使用 <code>build</code> 目录中的代码，所以，<code>src</code> 文件中的东西不应该作为 npm 包的一部分，这时候 <code>.npmignore</code> 就出场了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch .npmignore</span><br></pre></td></tr></table></figure>
+<p>在 <code>.npmignore</code> 文件中加入 <code>src/</code>。 <code>.npmignore</code> 与 <code>.gitignore</code> 功能类似，一个是针对 npm，一个是针对 git。</p>
+<p>之后运行如下命令就可以发布了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm adduser</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><p>为了更方便地管理代码的更新与发布，推荐使用 <code>np</code> 这个库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install np --save-dev</span><br></pre></td></tr></table></figure>
+<p>在 <code>package.json</code> 的 <code>scripts</code> 中添加 <code>release</code> 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;release&quot;: &quot;np&quot;</span><br></pre></td></tr></table></figure>
+<p>在修改代码之后，可以运行如下命令来进行更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm run release</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Happy Hacking~</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章帮助您解决了问题，可以考虑请我喝杯咖啡</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://futantan.qiniudn.com/wechat_pay.JPG" alt="Prayer 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/开源/" rel="tag"># 开源</a>
+          
+            <a href="/tags/npm/" rel="tag"># npm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/28/react-router-not-updated-in/" rel="next" title="解决 React Router location 得不到更新问题">
+                <i class="fa fa-chevron-left"></i> 解决 React Router location 得不到更新问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/01/2019-begins/" rel="prev" title="2019，始。">
+                2019，始。 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://avatars2.githubusercontent.com/u/6268441"
+                alt="Prayer" />
+            
+              <p class="site-author-name" itemprop="name">Prayer</p>
+              <p class="site-description motion-element" itemprop="description">DO COOL THINGS THAT MATTER</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/futantan" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/EclipsePrayer" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/EclipsePrayer" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                小伙伴们
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://xiaolei.tech/" title="巅峰博士" target="_blank">巅峰博士</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://numbbbbb.com" title="梁杰" target="_blank">梁杰</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ijack.pw" title="Jack Alan" target="_blank">Jack Alan</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.saitjr.com" title="Sai" target="_blank">Sai</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.swiftyper.com" title="小锅" target="_blank">小锅</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.justzht.com" title="JustZht" target="_blank">JustZht</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://sergiochan.xyz" title="Sergio Chan" target="_blank">Sergio Chan</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.martinrgb.com" title="MartinRGB" target="_blank">MartinRGB</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="blog.dianqk.org" title="DianQK" target="_blank">DianQK</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://blog.cee.moe" title="Cee" target="_blank">Cee</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://swift.gg" title="SwiftGG" target="_blank">SwiftGG</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yoyoyohamapi.me" title="吴小虫" target="_blank">吴小虫</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加版本控制"><span class="nav-number">1.</span> <span class="nav-text">添加版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-npm-配置"><span class="nav-number">2.</span> <span class="nav-text">初始化 npm 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-build-脚本"><span class="nav-number">3.</span> <span class="nav-text">添加 build 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-dev-脚本"><span class="nav-number">4.</span> <span class="nav-text">添加 dev 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-test-脚本"><span class="nav-number">5.</span> <span class="nav-text">添加 test 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加功能"><span class="nav-number">6.</span> <span class="nav-text">添加功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-npm-link-进行测试"><span class="nav-number">7.</span> <span class="nav-text">使用 npm link 进行测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档"><span class="nav-number">8.</span> <span class="nav-text">文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布"><span class="nav-number">9.</span> <span class="nav-text">发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#update"><span class="nav-number">10.</span> <span class="nav-text">update</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Prayer</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://futantan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.futantan.com/2017/10/29/publish-npm-package/';
+          this.page.identifier = '2017/10/29/publish-npm-package/';
+          this.page.title = '迈向开源的第一步——发布属于自己的 npm 包';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://futantan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
