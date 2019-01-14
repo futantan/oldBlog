@@ -360,14 +360,14 @@
         <p>Realm 中为了建立一对多的数据模型关系，需要使用 List。List 在使用上和 Array 非常类似，然而，当我们需要表示 Swift 中的基本类型的时候，坑就来了…</p>
 <a id="more"></a>
 <p>假设我们从服务端获取了一个字段 <code>tags</code>，这个字段是一个 String 类型的数组，我们的第一反应是这样来建立数据模型：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let tags = List&lt;String&gt;()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let tags = List&lt;String&gt;()</span><br></pre></td></tr></table></figure>
 <p>然而编译器会无情打脸</p>
 <p><img src="/media/14572748135230.jpg" alt=""><br>在 Realm 中，数据类型必须继承自 <code>Object</code>，这一点都不酷，真的…</p>
 <p>在查看了很久官方文档之后，得出一个结论，这种写法确实是不行的。于是你必须在为了表示 String 类型，而将 String 在包裹在一个 继承自 Object 的类中，向如下的写法：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealmString</span>: <span class="title">Object</span> </span>&#123;</div><div class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> stringValue = <span class="string">""</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealmString</span>: <span class="title">Object</span> </span>&#123;</span><br><span class="line">  <span class="keyword">dynamic</span> <span class="keyword">var</span> stringValue = <span class="string">""</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>确实这是目前唯一的解决办法，如果你有更好的解决方案，可以留言。</p>
 <p>当然，在我们无法改变结果的时候，就让我们来完善一下过程，将上面的变量声明代码改为：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> _backingTags = <span class="type">List</span>&lt;<span class="type">RealmString</span>&gt;()</div><div class="line"><span class="keyword">var</span> tags: [<span class="type">String</span>] &#123;</div><div class="line">  <span class="keyword">get</span> &#123;</div><div class="line">    <span class="keyword">return</span> _backingTags.<span class="built_in">map</span> &#123; $<span class="number">0</span>.stringValue &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">set</span> &#123;</div><div class="line">    _backingTags.removeAll()</div><div class="line">    _backingTags.appendContentsOf(newValue.<span class="built_in">map</span>(&#123; <span class="type">RealmString</span>(value: [$<span class="number">0</span>]) &#125;))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _backingTags = <span class="type">List</span>&lt;<span class="type">RealmString</span>&gt;()</span><br><span class="line"><span class="keyword">var</span> tags: [<span class="type">String</span>] &#123;</span><br><span class="line">  <span class="keyword">get</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _backingTags.<span class="built_in">map</span> &#123; $<span class="number">0</span>.stringValue &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">set</span> &#123;</span><br><span class="line">    _backingTags.removeAll()</span><br><span class="line">    _backingTags.appendContentsOf(newValue.<span class="built_in">map</span>(&#123; <span class="type">RealmString</span>(value: [$<span class="number">0</span>]) &#125;))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面我们定义了一个计算属性，通过 _backingTags 来作为实际的存储值，然后使用 tags 作为使用的接口，稍微优雅了一点。</p>
 <p>enjoy~</p>
 
@@ -518,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +670,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

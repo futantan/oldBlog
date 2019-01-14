@@ -338,12 +338,12 @@
         <p><img src="/media/redux-and-react-router.png" alt=""><br>React Router 可以帮助我们在单页面应用中管理 url，但是如果理解不当，也会存在一些潜在的 bug。</p>
 <a id="more"></a>
 <p>例如:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> HeaderComp = <span class="function">(<span class="params">&#123;location&#125;</span>) =&gt;</span> (</div><div class="line">  &lt;div&gt;&#123;location&#125;&lt;<span class="regexp">/div&gt;</span></div><div class="line"><span class="regexp">)</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">const Header = connect(mapStateToProps)(withRouter(HeaderComp))</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HeaderComp = <span class="function">(<span class="params">&#123;location&#125;</span>) =&gt;</span> (</span><br><span class="line">  &lt;div&gt;&#123;location&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const Header = connect(mapStateToProps)(withRouter(HeaderComp))</span></span><br></pre></td></tr></table></figure>
 <p>上述代码中，先是使用 <code>withRouter</code> 期望将 <code>location</code> 参数传入 <code>HeaderComp</code>，之后又 connect 到了 redux store。但是这里会发现，<code>location</code> 的值不会随着浏览器 url 的变化而更新。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">render() &#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  selector.shouldComponentUpdate = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> (nextProps !== selector.props || selector.error) &#123;</div><div class="line">  selector.shouldComponentUpdate = <span class="literal">true</span></div><div class="line">  selector.props = nextProps</div><div class="line">  selector.error = <span class="literal">null</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  selector.shouldComponentUpdate = <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (nextProps !== selector.props || selector.error) &#123;</span><br><span class="line">  selector.shouldComponentUpdate = <span class="literal">true</span></span><br><span class="line">  selector.props = nextProps</span><br><span class="line">  selector.error = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的代码是 <code>react-redux</code> 源码的片段，在 connect 所生成的高阶组件中，有如上两个片段。在每次 <code>render</code> 的时候，会将 <code>shouldComponentUpdate</code> 置为 false，之后每次比较 <code>props</code> 和 <code>nextProps</code> 是否不同，如果不同，才去触发 render。</p>
 <p>React Router 是通过 <code>context</code> 来将路由等信息通知到下游的组件的，所以，上述代码中 <code>Header</code> 的 <code>props</code> 中并不会有路由的信息，在 <code>shouldComponentUpdate</code> 方法中判定为 false，因此 HeaderComp 不会更新 location。</p>
-<p>解决的办法也很直接，将上述的代码改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">withRouter(connect(mapStateToProps)(HeaderComp))</div></pre></td></tr></table></figure></p>
+<p>解决的办法也很直接，将上述的代码改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">withRouter(connect(mapStateToProps)(HeaderComp))</span><br></pre></td></tr></table></figure></p>
 <p>这样一来，locatin 等参数会注入到 connect 所生成的高阶组件中， <code>shouldComponentUpdate</code> 会判定为 true，我们就拿到了期待的路由信息。</p>
 
       
@@ -493,7 +493,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -645,7 +645,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -338,7 +338,7 @@
         <p>在自定义控件的时候，我们经常需要不断的运行程序来查看控件效果是否符合要求，但是每次编译运行都很浪费时间，所以我特别喜欢使用 IB 来预览效果。这篇博文主要记录两点使用注意事项。</p>
 <a id="more"></a>
 <h2 id="IBInspectable"><a href="#IBInspectable" class="headerlink" title="IBInspectable"></a>IBInspectable</h2><p>在使用<code>@IBInspectable</code>来标注属性的时候，一定要显式的指明变量类型，而不是用 type infer。如果不显式的指定，IB 将不能够识别这个属性。例如：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> bgColor: <span class="type">UIColor</span> = <span class="type">UIColor</span>.grayColor() &#123;</div><div class="line">  <span class="keyword">didSet</span> &#123;</div><div class="line">    bgLayer.strokeColor = bgColor.<span class="type">CGColor</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bgColor: <span class="type">UIColor</span> = <span class="type">UIColor</span>.grayColor() &#123;</span><br><span class="line">  <span class="keyword">didSet</span> &#123;</span><br><span class="line">    bgLayer.strokeColor = bgColor.<span class="type">CGColor</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果没有显示的指定变量类型为 <code>UIColor</code> IB 中将不会有这个属性的选项。</p>
 <h2 id="Runtime-Attributes"><a href="#Runtime-Attributes" class="headerlink" title="Runtime Attributes"></a>Runtime Attributes</h2><p>你可以参考我的<a href="http://www.futantan.com/2015/09/17/adding-user-defined-runtime-attrubute/">这篇文章</a>来看看 运行时属性 的功能。<br>其实，我们使用 <code>@IBInspectable</code> 的时候，其原理也是使用 Runtime Attributes 来进行属性的赋值：<br><img src="/media/14598631079898.jpg" alt=""></p>
 <p>这里需要注意的是，如果我们将其中的 <code>curValue</code> 从 <code>@IBInspectable</code> 中去掉，记得一定要回到上图这里，将这里的 <code>curValue</code> 手动删除！ Xcode 目前还没这么智能，如果运行时发现有些奇怪的赋值现象，很有可能坑在这里。</p>
@@ -502,7 +502,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +670,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

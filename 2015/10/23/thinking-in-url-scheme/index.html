@@ -340,7 +340,7 @@
       
         <p>在苹果的系统中，我们经常需要在一个应用中，打开另外的一个应用以完成一些操作。举个例子，在网页中访问 App Store 时，可以通过链接打开本地的 iTunes 应用，在手机应用中，点击某个电话号码，可以跳转到相应的拨号界面，这些，其实都是通过 URL Scheme 机制来完成的。</p>
 <a id="more"></a>
-<p>举个例子，打开网页版的 App Store，找到在社交应用中找到 QQ，选择<code>在iTunes中查看</code>，会有图下提示：<br><img src="/media/14455825079076.jpg" width="500"><br>仔细观察会发现，链接以 <code>xxx://</code> 开头，如果我们手动输入这个链接会如何呢，打开<strong>Safari</strong>（注意选Safari作为实验对象），手动输入如下链接<a href="abc://" target="_blank" rel="external">abc://</a>（或者点击本页面的该链接），会发现如下结果<br><img src="/media/2015-10-23%2014.44.41.png" alt="2015-10-23 14.44.41"><br>我们不难发现规律，如果上面的<code>abc</code>是一个应用的话，应该可以响应该请求，如果链接后面有参数的话，应该也可以获得。</p>
+<p>举个例子，打开网页版的 App Store，找到在社交应用中找到 QQ，选择<code>在iTunes中查看</code>，会有图下提示：<br><img src="/media/14455825079076.jpg" width="500"><br>仔细观察会发现，链接以 <code>xxx://</code> 开头，如果我们手动输入这个链接会如何呢，打开<strong>Safari</strong>（注意选Safari作为实验对象），手动输入如下链接<a href="abc://" target="_blank" rel="noopener">abc://</a>（或者点击本页面的该链接），会发现如下结果<br><img src="/media/2015-10-23%2014.44.41.png" alt="2015-10-23 14.44.41"><br>我们不难发现规律，如果上面的<code>abc</code>是一个应用的话，应该可以响应该请求，如果链接后面有参数的话，应该也可以获得。</p>
 <p>其实 iOS 平台也是如此，大家可以试试。</p>
 <p>那么作为开发者，我们该如何使用这个特性呢？</p>
 <p>举例来说，如果我们需要使用 <code>OAuth</code> 获得授权，可以向认证服务器发送请求，授权成功之后，可以使用 URL Scheme 技术，标明跳转到我们的应用，并将获得用户授权的 Token 传递给应用程序。</p>
@@ -352,8 +352,8 @@
 </ol>
 <p>第三步才是最关键的，在 <code>Info.plist</code> 文件中加入如下参数<br><img src="/media/14455832264840.jpg" alt=""></p>
 <p>或者可以通过修改 <code>Info.plist</code> 源码的方式，在其中添加如下代码</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLTypes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLSchemes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>FTAPP<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLName<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.futantan.www<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>其中的 URL identifier 也就是源码中的 CFBundleURLName 可以随意改动，建议使用自己的反序域名，其中的 URL Schemes 是一个数组，这里我们添加了一个条目，为 FTAPP，这个内容也就是标识我们的应用的，当浏览器访问 <a href="FTAPP://" target="_blank" rel="external">FTAPP://</a> 的时候，应该会跳转到我们的应用程序。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLTypes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLSchemes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>FTAPP<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLName<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.futantan.www<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中的 URL identifier 也就是源码中的 CFBundleURLName 可以随意改动，建议使用自己的反序域名，其中的 URL Schemes 是一个数组，这里我们添加了一个条目，为 FTAPP，这个内容也就是标识我们的应用的，当浏览器访问 <a href="FTAPP://" target="_blank" rel="noopener">FTAPP://</a> 的时候，应该会跳转到我们的应用程序。</p>
 <p><img src="/media/14455837568487.jpg" alt=""></p>
 <p>在浏览器输入之后，果然会弹出一个对话框，表明要跳转到我们的应用。</p>
 <p>那么我们如何通过该方法来拿到一些参数呢？在 <code>AppDelegate</code> 中，使用如下函数：</p>
@@ -510,7 +510,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -662,7 +662,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

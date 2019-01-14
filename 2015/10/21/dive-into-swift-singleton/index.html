@@ -335,9 +335,9 @@
       
         <p>Swift 中的单例是如何工作的呢<br><a id="more"></a></p>
 <p>在 OC 中，我们常常这样来写一个单利</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@implementation MyManager</div><div class="line">+ (id)sharedManager &#123;</div><div class="line">    static MyManager *staticInstance = nil;</div><div class="line">    static dispatch_once_t onceToken;</div><div class="line"></div><div class="line">    dispatch_once(&amp;onceToken, ^&#123;</div><div class="line">        staticInstance = [[self alloc] init];</div><div class="line">    &#125;);</div><div class="line">    return staticInstance;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@implementation MyManager</span><br><span class="line">+ (id)sharedManager &#123;</span><br><span class="line">    static MyManager *staticInstance = nil;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line"></span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        staticInstance = [[self alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return staticInstance;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 <p>使用 <code>dispatch_once_t</code> 来保证代码只被调用一次。而在 Swift 中，如下的方式，被认为是最佳实践：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> sharedInstance = <span class="type">MyManager</span>()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span>  </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">sharedManager</span> : <span class="title">MyManager</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sharedInstance</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> sharedInstance = <span class="type">MyManager</span>()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span>  </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">sharedManager</span> : <span class="title">MyManager</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sharedInstance</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>为什么这种方式是可行的呢？</p>
 <blockquote>
 <p>private let sharedInstance = MyManager()</p>
@@ -497,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -649,7 +649,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="荒唐言,Swift," />
+  <meta name="keywords" content="Swift,荒唐言," />
 
 
 
@@ -84,7 +84,7 @@
 
 
 <meta name="description" content="Laziness, impatience and hubris.程序员的三大美德。今天我们来谈一谈三大美德之首，懒惰。（或许这能解释一下为什么我这么久没有更新博客…）">
-<meta name="keywords" content="荒唐言,Swift">
+<meta name="keywords" content="Swift,荒唐言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="程序员的懒惰与面向协议编程(POP)">
 <meta property="og:url" content="http://www.futantan.com/2016/03/03/程序员的懒惰与面向协议编程-POP/index.html">
@@ -339,7 +339,7 @@
 <p>函数作为代码复用的单位，已经不能解决广大程序员日益增长的懒惰曲线和现有的复用技术的矛盾了。Here comes OOP。面向对象编程在 Java 大行其道的今天，可能已经早已被大家接受了。编程的过程不再是简单的函数调用，而是不同对象之间的消息发送（sending messages between objects）。通过继承，子类对象可以获得父类的属性和方法，然而，这种复用的方式还是耦合性太强了，举个粗俗的例子，一个人想要获得另一个人的资源，就要认他做父，在 Java 和很多其他编程语言中，都是只支持单继承的，可以认很多的父亲（比如 C++），管理起来就很混乱。然而，人总是懒惰和贪婪的，我又想要其他人的资源，这时候该怎么办呢？找个满足你所有需求的爹…</p>
 <p>以 iOS 为例，我想要继承自一个 ViewController1，然而，还想要有另外的一个 ViewController2，该怎么办呢，创建一个新的 ViewController3，复制粘贴 ViewController1 和 ViewController2 的代码，然后在继承自 ViewController3，然而代码又有重复了。</p>
 <p>可以看出，继承，作为代码复用的一种方式，耦合性还是太强。那么有没有一种方法，能够在不改变现有代码的基础上，实现代码的复用呢。</p>
-<p><a href="https://developer.apple.com/videos/play/wwdc2015/408/" target="_blank" rel="external">面向协议编程</a></p>
+<p><a href="https://developer.apple.com/videos/play/wwdc2015/408/" target="_blank" rel="noopener">面向协议编程</a></p>
 <p>其实像 Ruby 中的 Mix-in 或 Trait可以实现类似的功能，这里不展开讨论了。</p>
 <p>当然会有人说，面向协议编程，这里的 protocol 不就是 Java 中的 interface 吗，对，也不对。Java 中的 interface，更多的功能是处理类型信息，更像是多态的效果，然而并没有提供代码的复用机制，因为拥有相同接口的不同的类，即使他们的接口实现都相同，也必须同时实现这个接口，于是，重复代码又出现了！</p>
 <p>在 Swift 2.0 之后，我们可以使用 extension 为 protocol 添加默认的实现，也就是说，在大多数情况下，我们使用这种低耦合的方式，让你的类站出来说，我要遵循 XXX 协议，然后，就完成了！</p>
@@ -384,9 +384,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/荒唐言/" rel="tag"># 荒唐言</a>
-          
             <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+            <a href="/tags/荒唐言/" rel="tag"># 荒唐言</a>
           
         </div>
       
@@ -493,7 +493,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -645,7 +645,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

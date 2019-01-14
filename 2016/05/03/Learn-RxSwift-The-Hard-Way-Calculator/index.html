@@ -359,13 +359,13 @@
       
         <p>To RxSwift:<br>初次见面，请多关照。</p>
 <a id="more"></a>
-<p>Demo 的 GitHub 地址：<a href="https://github.com/futantan/PrayerBlogCode/tree/master/RxSwiftDemo" target="_blank" rel="external">RxSwiftDemo</a></p>
+<p>Demo 的 GitHub 地址：<a href="https://github.com/futantan/PrayerBlogCode/tree/master/RxSwiftDemo" target="_blank" rel="noopener">RxSwiftDemo</a></p>
 <p>这里我们将实现 RxSwift Demo 中最简单的一个例子，加法器。</p>
 <p><img src="/media/14622874699158.jpg" width="400"></p>
 <p>如图所示，有三个 UITextField，代表着三个输入的数字，最后是一个显示结果的 Label。这里的逻辑很简单，就不给大家展示代码了。</p>
 <p>主要的逻辑代码如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="type">Observable</span>.combineLatest(number1.rx_text, number2.rx_text, number3.rx_text) &#123;</div><div class="line">  (textValue1, textValue2, textValue3) -&gt; <span class="type">Int</span> <span class="keyword">in</span></div><div class="line">  <span class="keyword">return</span> (<span class="type">Int</span>(textValue1) ?? <span class="number">0</span>) + (<span class="type">Int</span>(textValue2) ?? <span class="number">0</span>) + (<span class="type">Int</span>(textValue3) ?? <span class="number">0</span>)</div><div class="line">&#125;</div><div class="line">.<span class="built_in">map</span> &#123; $<span class="number">0</span>.description &#125;</div><div class="line">.bindTo(result.rx_text)</div><div class="line">.addDisposableTo(disposeBag)</div></pre></td></tr></table></figure>
-<p>其中，<code>combineLatest</code> 的效果可以从 <a href="http://rxmarbles.com/#combineLatest" target="_blank" rel="external">http://rxmarbles.com/#combineLatest</a> 这里很直观的看到。这里是将三个被加数的值进行计算，返回它们的和。<code>map</code> 将 Int 值转为 String，<code>bindTo</code> 将 String 值赋给了 result label。最后 <code>addDisposableTo</code> 是内存管理的东西，我们以后再谈。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Observable</span>.combineLatest(number1.rx_text, number2.rx_text, number3.rx_text) &#123;</span><br><span class="line">  (textValue1, textValue2, textValue3) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">  <span class="keyword">return</span> (<span class="type">Int</span>(textValue1) ?? <span class="number">0</span>) + (<span class="type">Int</span>(textValue2) ?? <span class="number">0</span>) + (<span class="type">Int</span>(textValue3) ?? <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line">.<span class="built_in">map</span> &#123; $<span class="number">0</span>.description &#125;</span><br><span class="line">.bindTo(result.rx_text)</span><br><span class="line">.addDisposableTo(disposeBag)</span><br></pre></td></tr></table></figure>
+<p>其中，<code>combineLatest</code> 的效果可以从 <a href="http://rxmarbles.com/#combineLatest" target="_blank" rel="noopener">http://rxmarbles.com/#combineLatest</a> 这里很直观的看到。这里是将三个被加数的值进行计算，返回它们的和。<code>map</code> 将 Int 值转为 String，<code>bindTo</code> 将 String 值赋给了 result label。最后 <code>addDisposableTo</code> 是内存管理的东西，我们以后再谈。</p>
 <p>从我们的第一个 Demo 中，就可以看出 RxSwift 的强大之处了。如果我们使用 Cocoa 的方式来实现，需要这监听这三个 TextField 的值变化，设置代理，然后进行计算，想想都头大。这里的代码简洁明了，爽！</p>
 
       
@@ -517,7 +517,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -669,7 +669,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -355,13 +355,13 @@
       
 
       
-        <p>最近准备着手跳进 <a href="https://realm.io/cn/" target="_blank" rel="external">Realm</a> 的坑，如果你对 Realm 还不熟悉，可以看看我之前的一篇<a href="http://www.futantan.com/2015/10/29/Building-a-ToDo-A-Realm-and-Swift/">译文</a>。这里我们聊一聊，Realm 在使用之前，配置上的坑。（iOS 平台）</p>
+        <p>最近准备着手跳进 <a href="https://realm.io/cn/" target="_blank" rel="noopener">Realm</a> 的坑，如果你对 Realm 还不熟悉，可以看看我之前的一篇<a href="http://www.futantan.com/2015/10/29/Building-a-ToDo-A-Realm-and-Swift/">译文</a>。这里我们聊一聊，Realm 在使用之前，配置上的坑。（iOS 平台）</p>
 <a id="more"></a>
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>目前，我使用的是 Xcode 7.2，Realm Swift 的最新版本为 0.98.1。</p>
-<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>开始填坑，<strong>注意</strong> ：目前不支持 CocoaPods 1.0.0 版本，请一定使用 ~&gt; 0.39.0 的 pod 版本，如果你已经升级到 1.0 以后的版本，可以试试 <code>pod _0.39_ install</code> 来安装依赖，具体的步骤，<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="external">官网</a>都有说明，我就不多说了。</p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>开始填坑，<strong>注意</strong> ：目前不支持 CocoaPods 1.0.0 版本，请一定使用 ~&gt; 0.39.0 的 pod 版本，如果你已经升级到 1.0 以后的版本，可以试试 <code>pod _0.39_ install</code> 来安装依赖，具体的步骤，<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="noopener">官网</a>都有说明，我就不多说了。</p>
 <p>当然，这个<strong>坑具有实效性</strong>，请以官网说明为准。</p>
 <h2 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h2><p>默认的数据库存放位置为 你的应用文件夹下的 <code>Documents</code> 目录，默认会生成一个 <code>default.realm</code> 的数据库文件，当然，如果你找不到模拟器的应用目录的话，可以跑一下下面的代码，来查看路径：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">print</span>(<span class="type">Realm</span>.<span class="type">Configuration</span>.defaultConfiguration.path!)</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="type">Realm</span>.<span class="type">Configuration</span>.defaultConfiguration.path!)</span><br></pre></td></tr></table></figure>
 <p>祝大家玩儿的愉快！</p>
 
       
@@ -520,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -688,7 +688,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

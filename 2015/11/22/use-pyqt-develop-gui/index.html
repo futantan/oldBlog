@@ -341,9 +341,9 @@
 <p>然而 PyQt 的开发姿势我居然忘记了…年纪大了果然记性不太好，滚回来写篇博客记录一下，方便以后还有类似搬砖的活儿。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>一开始肯定是搞定各种环境，不像 Linux 的命令行那样友好，安装包要自己一个个下。</p>
 <ul>
-<li><a href="https://www.python.org/" target="_blank" rel="external">python 包地址</a></li>
-<li><a href="https://pypi.python.org/pypi/pip" target="_blank" rel="external">pip 地址</a></li>
-<li><a href="https://www.riverbankcomputing.com/software/pyqt/download" target="_blank" rel="external">PyQt 地址</a></li>
+<li><a href="https://www.python.org/" target="_blank" rel="noopener">python 包地址</a></li>
+<li><a href="https://pypi.python.org/pypi/pip" target="_blank" rel="noopener">pip 地址</a></li>
+<li><a href="https://www.riverbankcomputing.com/software/pyqt/download" target="_blank" rel="noopener">PyQt 地址</a></li>
 </ul>
 <p>分别选择合适的包安装就可以了，然后配置好 python 和 pip 的环境变量。</p>
 <h2 id="装成设计师的样子"><a href="#装成设计师的样子" class="headerlink" title="装成设计师的样子"></a>装成设计师的样子</h2><p><img src="/media/QQ%E6%88%AA%E5%9B%BE20151122155526.png" alt="QQ截图20151122155526"></p>
@@ -351,9 +351,9 @@
 <p>随便拖拽一些控件，摆个积木什么的，注意选中 <code>发送</code> 按钮，将它的 <code>objectName</code> 改为 <code>sendButton</code>，或者其他你喜欢的名字，后面会用到。</p>
 <h2 id="与-UI-交互"><a href="#与-UI-交互" class="headerlink" title="与 UI 交互"></a>与 UI 交互</h2><p>有 UI 的程序，界面最重要的作用是替代命令行在某个时刻发送一些命令，为了将 UI 导入我们的程序，需要做一些操作。</p>
 <p>首先保存这个 UI 文件，不妨就叫做 <code>a.ui</code>。打开命令行工具，进入该文件的目录，利用 ui 文件生成 python 代码。这里如果用编辑器查看 ui 文件，其实就是个 xml，和 Android 与 iOS 的界面原理一致，使用如下代码，生成 UI 代码：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pyuic4 a.ui -o ui.py</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyuic4 a.ui -o ui.py</span><br></pre></td></tr></table></figure>
 <p>选取喜爱的编辑器打开代码目录，新建一个 python 文件，代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui</div><div class="line"></div><div class="line"><span class="keyword">from</span> ui <span class="keyword">import</span> Ui_MainWindow <span class="comment"># 1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span><span class="params">(QtGui.QMainWindow)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span></div><div class="line">        QtGui.QWidget.__init__(self, parent)</div><div class="line">        self.ui = Ui_MainWindow()</div><div class="line">        self.ui.setupUi(self)</div><div class="line">        self.ui.sendButton.clicked.connect(self.sendButtonClicked) <span class="comment"># 2</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sendButtonClicked</span><span class="params">(self)</span>:</span> <span class="comment"># 3</span></div><div class="line">    	<span class="keyword">print</span> <span class="number">123</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    app = QtGui.QApplication(sys.argv)</div><div class="line">    myapp = MyApp()</div><div class="line">    myapp.show()</div><div class="line">    sys.exit(app.exec_())</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> ui <span class="keyword">import</span> Ui_MainWindow <span class="comment"># 1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span><span class="params">(QtGui.QMainWindow)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span></span><br><span class="line">        QtGui.QWidget.__init__(self, parent)</span><br><span class="line">        self.ui = Ui_MainWindow()</span><br><span class="line">        self.ui.setupUi(self)</span><br><span class="line">        self.ui.sendButton.clicked.connect(self.sendButtonClicked) <span class="comment"># 2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sendButtonClicked</span><span class="params">(self)</span>:</span> <span class="comment"># 3</span></span><br><span class="line">    	<span class="keyword">print</span> <span class="number">123</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app = QtGui.QApplication(sys.argv)</span><br><span class="line">    myapp = MyApp()</span><br><span class="line">    myapp.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
 <p>其他部分都是固定不变的。</p>
 <ol>
 <li>注释 1 处： <code>ui</code> 是生成的 <code>ui.py</code> 文件</li>
@@ -520,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -688,7 +688,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -398,7 +398,7 @@
 <pre><code>if(instance == null)
      instance = new Singleton();
 </code></pre><p>这段代码进行同步，如果对象已经被创建，就不会进入到第一个if代码段里面，所以仅仅在第一次创建的时候会进行同步，效率自然高了。现在看来万无一失了。但问题还没有这么简单。</p>
-<p><code>out-of-order write</code>问题，更多相关资料请见： <a href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html" target="_blank" rel="external">DoubleCheckedLocking</a></p>
+<p><code>out-of-order write</code>问题，更多相关资料请见： <a href="http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html" target="_blank" rel="noopener">DoubleCheckedLocking</a></p>
 <p><code>instance = new Singleton();</code>  的顺序应该是</p>
 <pre><code>1 分配内存
 2 构造函数初始化
@@ -579,7 +579,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -747,7 +747,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -337,30 +337,30 @@
       
         <p>很多时候，我们需要关闭弹出的虚拟键盘，这里我们就讨论一下关闭键盘的多种方法。</p>
 <a id="more"></a>
-<h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><p><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextField_Class/index.html" target="_blank" rel="external">苹果官方文档</a>中是这么描述的：</p>
+<h2 id="原理解析"><a href="#原理解析" class="headerlink" title="原理解析"></a>原理解析</h2><p><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITextField_Class/index.html" target="_blank" rel="noopener">苹果官方文档</a>中是这么描述的：</p>
 <blockquote>
 <p>在用户进行了特定的操作的时候，可能需要将键盘隐藏。如果需要在点击键盘上的 <code>return</code> 按钮时隐藏，需要设置文本输入框的 <code>delegate</code>。为了隐藏按钮，需要向当前的第一响应者(first responder)发送 <code>resignFirstResponder</code> 消息。这样可以让该文本输入框结束当前的输入会话，并隐藏键盘。</p>
 </blockquote>
 <p>那么问题的关键就是向第一响应者发送 <code>resignFirstResponder</code> 消息。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[yourTextFieldName resignFirstResponder];</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[yourTextFieldName resignFirstResponder];</span><br></pre></td></tr></table></figure>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>但是问题来了，如果界面上有多个文本输入框怎么办，并不知道哪个输入框才是第一响应者。  </p>
 <h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>最直观的方法就是给每一个文本输入框都发送 <code>resignFirstResponder</code> 消息。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span>.yourTextField1 resignFirstResponder];</div><div class="line">[<span class="keyword">self</span>.yourTextField2 resignFirstResponder];</div><div class="line">...</div><div class="line">[<span class="keyword">self</span>.yourTextFieldn resignFirstResponder];</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.yourTextField1 resignFirstResponder];</span><br><span class="line">[<span class="keyword">self</span>.yourTextField2 resignFirstResponder];</span><br><span class="line">...</span><br><span class="line">[<span class="keyword">self</span>.yourTextFieldn resignFirstResponder];</span><br></pre></td></tr></table></figure>
 <h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>当然，还有一种稍微聪明一些的方式，传入整个 <code>view</code>：</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *resignFirstResponder(<span class="built_in">UIView</span> *theView)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>([theView isFirstResponder])</div><div class="line">    &#123;</div><div class="line">        [theView resignFirstResponder];</div><div class="line">        <span class="keyword">return</span> theView;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span>(<span class="built_in">UIView</span> *subview <span class="keyword">in</span> theView.subviews)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">UIView</span> *result = resignFirstResponder(subview);</div><div class="line">        <span class="keyword">if</span>(result) <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIView</span> *resignFirstResponder(<span class="built_in">UIView</span> *theView)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>([theView isFirstResponder])</span><br><span class="line">    &#123;</span><br><span class="line">        [theView resignFirstResponder];</span><br><span class="line">        <span class="keyword">return</span> theView;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">UIView</span> *subview <span class="keyword">in</span> theView.subviews)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">UIView</span> *result = resignFirstResponder(subview);</span><br><span class="line">        <span class="keyword">if</span>(result) <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>遍历传入的 <code>view</code> 的所有子视图，并发送 <code>resignFirstResponder</code> 消息。</p>
 <h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>有没有相对优雅一点的方法呢。当然，下面的方法和方法二中提供的方法原理一致，不过有造好的轮子干嘛不用呢。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span>.view endEditing:<span class="literal">YES</span>];</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.view endEditing:<span class="literal">YES</span>];</span><br></pre></td></tr></table></figure>
 <p>是不是简洁明了多了！</p>
 <h2 id="键盘-return-键隐藏键盘"><a href="#键盘-return-键隐藏键盘" class="headerlink" title="键盘 return 键隐藏键盘"></a>键盘 <code>return</code> 键隐藏键盘</h2><p>原理与上述方法一致，只是要求响应点击 <code>return</code> 键的事件。</p>
 <ol>
 <li>将 TextField 的 delegate 设置为实现 <code>textFieldShouldReturn:(UITextField *)textField</code> 方法的类（一般为相应的 ViewController）</li>
 <li><p>遵循 <code>UITextFieldDelegate</code> 协议，并实现 <code>textFieldShouldReturn</code>方法：</p>
- <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)textFieldShouldReturn:(<span class="built_in">UITextField</span> *)textField &#123;</div><div class="line">    [textField resignFirstResponder];</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)textFieldShouldReturn:(<span class="built_in">UITextField</span> *)textField &#123;</span><br><span class="line">    [textField resignFirstResponder];</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="点击空白处，隐藏键盘"><a href="#点击空白处，隐藏键盘" class="headerlink" title="点击空白处，隐藏键盘"></a>点击空白处，隐藏键盘</h2><p>有时我们需要在点击界面的空白处隐藏键盘，这是一个非常便利的操作。<br>这里我们的思路是，响应点击空白处的事件，并调用相应的 <code>endEditing</code> 方法。为了响应空白处的点击事件，需要将 <code>xib</code> 文件（或 <code>stroyboard</code>）文件中响应的 View Class 改为 <code>UIControl</code>，之后设定相关的 Target-Action<br><img src="/media/14407356188460.jpg" alt=""><br>并实现相关的方法：</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)backgroundTapped:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    [<span class="keyword">self</span>.view endEditing:<span class="literal">YES</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">IBAction</span>)backgroundTapped:(<span class="keyword">id</span>)sender &#123;</span><br><span class="line">    [<span class="keyword">self</span>.view endEditing:<span class="literal">YES</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -518,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -686,7 +686,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

@@ -336,17 +336,17 @@
 
       
         <blockquote>
-<p>更新： 收藏这个网址 <a href="http://nsdateformatter.com/" target="_blank" rel="external">nsdateformatter</a>，这篇博客不用看了！</p>
+<p>更新： 收藏这个网址 <a href="http://nsdateformatter.com/" target="_blank" rel="noopener">nsdateformatter</a>，这篇博客不用看了！</p>
 </blockquote>
 <p>在和服务器交互数据的时候，使用到 NSDate，无论是将服务器返回的 String 类型的日期字符串转为 NSDate，还是 NSDate 到 String 类型的逆向处理，都是经常要做的事情，这里主要是和大家分享一个特别棒的网站。</p>
 <a id="more"></a>
 <h2 id="String-To-Date"><a href="#String-To-Date" class="headerlink" title="String To Date"></a>String To Date</h2><p>来看一个具体的场景，比如，服务器端给我们返回的日期字段为 <code>2016-03-05T11:35:05Z</code>，String 类型，我们使用下面的做法来处理：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> stringToDateFormatter = <span class="type">NSDateFormatter</span>()</div><div class="line">stringToDateFormatter.dateFormat = <span class="string">"yyyy-MM-dd'T'kk:mm:ssZ"</span></div><div class="line">stringToDateFormatter.timeZone = <span class="type">NSTimeZone</span>.localTimeZone()</div><div class="line"><span class="keyword">let</span> date = stringToDateFormatter.dateFromString(dateString)</div></pre></td></tr></table></figure>
-<p>其实很简单，关键在于 “yyyy-MM-dd’T’kk:mm:ssZ”，如何快速正确的写出这个 format 字符串呢，给大家推荐一个网站 <a href="http://userguide.icu-project.org/formatparse/datetime" target="_blank" rel="external">Formatting Dates and Times</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stringToDateFormatter = <span class="type">NSDateFormatter</span>()</span><br><span class="line">stringToDateFormatter.dateFormat = <span class="string">"yyyy-MM-dd'T'kk:mm:ssZ"</span></span><br><span class="line">stringToDateFormatter.timeZone = <span class="type">NSTimeZone</span>.localTimeZone()</span><br><span class="line"><span class="keyword">let</span> date = stringToDateFormatter.dateFromString(dateString)</span><br></pre></td></tr></table></figure>
+<p>其实很简单，关键在于 “yyyy-MM-dd’T’kk:mm:ssZ”，如何快速正确的写出这个 format 字符串呢，给大家推荐一个网站 <a href="http://userguide.icu-project.org/formatparse/datetime" target="_blank" rel="noopener">Formatting Dates and Times</a></p>
 <p><img src="/media/14571797012126.jpg" alt=""></p>
 <p>amazing！再也不用担心不会写日期格式化字符串了！</p>
 <h2 id="Date-To-String"><a href="#Date-To-String" class="headerlink" title="Date To String"></a>Date To String</h2><p>现在我们来将 NSDate 转为 想要的 String 类型，比如上面的时间，我想要的输出是 “Mar 5, 2016”<br>可以使用如下代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> dateToStringFormatter = <span class="type">NSDateFormatter</span>()</div><div class="line">dateToStringFormatter.dateFormat = <span class="string">"MMM d, yyyy"</span> <span class="comment">//Mar 5, 2016</span></div><div class="line"><span class="built_in">print</span>(dateToStringFormatter.stringFromDate(date!))</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dateToStringFormatter = <span class="type">NSDateFormatter</span>()</span><br><span class="line">dateToStringFormatter.dateFormat = <span class="string">"MMM d, yyyy"</span> <span class="comment">//Mar 5, 2016</span></span><br><span class="line"><span class="built_in">print</span>(dateToStringFormatter.stringFromDate(date!))</span><br></pre></td></tr></table></figure>
 <p>希望看完这篇博文，在以后遇到类似情况的时候，能够节省下您 5 分钟的搜索时间。<br>enjoy~</p>
 
       
@@ -505,7 +505,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -673,7 +673,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
