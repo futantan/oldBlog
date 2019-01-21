@@ -70,12 +70,10 @@
 
 
 
-  <meta name="keywords" content="JavaScript, iOS, futantan, prayer" />
+  <meta name="keywords" content="fp," />
 
 
 
-
-  
 
 
   <link rel="alternate" href="/atom.xml" title="Prayer's blog" type="application/atom+xml" />
@@ -85,17 +83,20 @@
 
 
 
-<meta name="description" content="DO COOL THINGS THAT MATTER">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://www.futantan.com/categories/index.html">
+<meta name="description" content="在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。">
+<meta name="keywords" content="fp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="compose">
+<meta property="og:url" content="http://www.futantan.com/2019/01/20/fp-compose/index.html">
 <meta property="og:site_name" content="Prayer&#39;s blog">
-<meta property="og:description" content="DO COOL THINGS THAT MATTER">
+<meta property="og:description" content="在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-27T09:49:38.000Z">
+<meta property="og:image" content="http://www.futantan.com/media/2019-1-20-compose.jpg">
+<meta property="og:updated_time" content="2019-01-21T10:56:21.999Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类">
-<meta name="twitter:description" content="DO COOL THINGS THAT MATTER">
+<meta name="twitter:title" content="compose">
+<meta name="twitter:description" content="在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。">
+<meta name="twitter:image" content="http://www.futantan.com/media/2019-1-20-compose.jpg">
 
 
 
@@ -114,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://www.futantan.com/categories/"/>
+  <link rel="canonical" href="http://www.futantan.com/2019/01/20/fp-compose/"/>
 
 
 
 
 
-  <title>分类 | Prayer's blog</title>
+  <title>compose | Prayer's blog</title>
   
 
 
@@ -244,40 +245,195 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.futantan.com/2019/01/20/fp-compose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Prayer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/6268441">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Prayer's blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 9 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Learn-RxSwift-The-Hard-Way/">Learn RxSwift The Hard Way</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Realm-入坑系列/">Realm 入坑系列</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tips/">Tips</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WWDC/">WWDC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/译文/">译文</a><span class="category-list-count">4</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">compose</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-20T22:59:49+08:00">
+                2019-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/20/fp-compose/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/01/20/fp-compose/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p><img src="/media/2019-1-20-compose.jpg" alt=""></p>
+<p>在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。</p>
+<a id="more"></a>
+<p>我们通常会使用函数嵌套的方式来做：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(g(h(x)))</span><br></pre></td></tr></table></figure></p>
+<p>这是非常典型的例子，面向过程，将 <code>h(x)</code> 的结果给 <code>g</code>，然后再调用 <code>f</code>。当可读性不好的时候，我们会选择引入中间变量，将中间的计算结果赋值给一个变量，然后再进行下一步的操作。</p>
+<p>那么在函数式的世界中，是如何处理的呢？</p>
+<p>假设我们定义一个操作 </p>
+<p>$$\circ : (f \circ g)(x)=f(g(x))$$</p>
+<p>那么上面的 <code>f(g(h(x)))</code> 可以表示为</p>
+<p>$$(f \circ g \circ h)(x)$$</p>
+<p>Beautiful math！这就是函数组合，左边的部分，由三个函数，组合成了一个全新的函数。</p>
+<p>那么在编程的世界中，我们是如何做的呢？<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(f . g . h) x</span><br></pre></td></tr></table></figure></p>
+<p>这是 haskell 中的代码，与数学定义完全一致！</p>
+<p>接下来我们尝试在 JavaScript 中来实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compose = </span><br><span class="line">  (...fns) =&gt; <span class="function">(<span class="params">x</span>) =&gt;</span> fns.reduceRight(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> curr(prev), x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> addOne = <span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> double = <span class="function"><span class="params">x</span> =&gt;</span> x * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> addOneThenDouble = compose(double, addOne)</span><br><span class="line"><span class="built_in">console</span>.log(addOneThenDouble(<span class="number">3</span>); <span class="comment">// 8</span></span><br></pre></td></tr></table></figure></p>
+<p>非常简单，<code>fns</code> 是传入的所有函数的集合，然后从右向左，依次进行函数调用，将上一次的结果作为下一次调用的输入，最终得到结果。</p>
+<p>对于 <code>compse</code> 的接口，最右的函数参数个数可以任意，然后其他的所有函数接收一个参数，并返回一个值，为了满足这个需求，修改代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> putToArray = <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">Array</span>.isArray(x) ? x : [x]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> compose =</span><br><span class="line">  (...fns) =&gt;</span><br><span class="line">    (...args) =&gt;</span><br><span class="line">      fns.reduceRight(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span></span><br><span class="line">        curr.apply(<span class="literal">null</span>, putToArray(prev)), args)</span><br></pre></td></tr></table></figure></p>
+<p>完成。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章帮助您解决了问题，可以考虑请我喝杯咖啡</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="http://futantan.qiniudn.com/wechat_pay.JPG" alt="Prayer 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fp/" rel="tag"># fp</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/01/2019-begins/" rel="next" title="2019，始。">
+                <i class="fa fa-chevron-left"></i> 2019，始。
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -636,9 +792,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://www.futantan.com/categories/index.html';
-          this.page.identifier = 'categories/index.html';
-          this.page.title = '分类';
+          this.page.url = 'http://www.futantan.com/2019/01/20/fp-compose/';
+          this.page.identifier = '2019/01/20/fp-compose/';
+          this.page.title = 'compose';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://futantan.disqus.com/embed.js';

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.futantan.com/"/>
-  <updated>2019-01-14T08:38:46.080Z</updated>
+  <updated>2019-01-21T10:56:21.999Z</updated>
   <id>http://www.futantan.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>compose</title>
+    <link href="http://www.futantan.com/2019/01/20/fp-compose/"/>
+    <id>http://www.futantan.com/2019/01/20/fp-compose/</id>
+    <published>2019-01-20T14:59:49.000Z</published>
+    <updated>2019-01-21T10:56:21.999Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/media/2019-1-20-compose.jpg" alt=""></p><p>在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。</p><a id="more"></a><p>我们通常会使用函数嵌套的方式来做：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(g(h(x)))</span><br></pre></td></tr></table></figure></p><p>这是非常典型的例子，面向过程，将 <code>h(x)</code> 的结果给 <code>g</code>，然后再调用 <code>f</code>。当可读性不好的时候，我们会选择引入中间变量，将中间的计算结果赋值给一个变量，然后再进行下一步的操作。</p><p>那么在函数式的世界中，是如何处理的呢？</p><p>假设我们定义一个操作 </p><p>$$\circ : (f \circ g)(x)=f(g(x))$$</p><p>那么上面的 <code>f(g(h(x)))</code> 可以表示为</p><p>$$(f \circ g \circ h)(x)$$</p><p>Beautiful math！这就是函数组合，左边的部分，由三个函数，组合成了一个全新的函数。</p><p>那么在编程的世界中，我们是如何做的呢？<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(f . g . h) x</span><br></pre></td></tr></table></figure></p><p>这是 haskell 中的代码，与数学定义完全一致！</p><p>接下来我们尝试在 JavaScript 中来实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compose = </span><br><span class="line">  (...fns) =&gt; <span class="function">(<span class="params">x</span>) =&gt;</span> fns.reduceRight(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span> curr(prev), x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> addOne = <span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">const</span> double = <span class="function"><span class="params">x</span> =&gt;</span> x * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> addOneThenDouble = compose(double, addOne)</span><br><span class="line"><span class="built_in">console</span>.log(addOneThenDouble(<span class="number">3</span>); <span class="comment">// 8</span></span><br></pre></td></tr></table></figure></p><p>非常简单，<code>fns</code> 是传入的所有函数的集合，然后从右向左，依次进行函数调用，将上一次的结果作为下一次调用的输入，最终得到结果。</p><p>对于 <code>compse</code> 的接口，最右的函数参数个数可以任意，然后其他的所有函数接收一个参数，并返回一个值，为了满足这个需求，修改代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> putToArray = <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">Array</span>.isArray(x) ? x : [x]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> compose =</span><br><span class="line">  (...fns) =&gt;</span><br><span class="line">    (...args) =&gt;</span><br><span class="line">      fns.reduceRight(<span class="function">(<span class="params">prev, curr</span>) =&gt;</span></span><br><span class="line">        curr.apply(<span class="literal">null</span>, putToArray(prev)), args)</span><br></pre></td></tr></table></figure></p><p>完成。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/media/2019-1-20-compose.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在函数式编程的世界中，函数是基本单元，通过对一些函数的排列组合，构建了功能更加强大的函数，而这些的基础，是函数组合。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="fp" scheme="http://www.futantan.com/tags/fp/"/>
+    
+  </entry>
   
   <entry>
     <title>2019，始。</title>
@@ -434,28 +455,6 @@
     
     
       <category term="iOS" scheme="http://www.futantan.com/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Realm 入坑系列之配置</title>
-    <link href="http://www.futantan.com/2016/03/04/fuck-realm-config/"/>
-    <id>http://www.futantan.com/2016/03/04/fuck-realm-config/</id>
-    <published>2016-03-04T10:35:04.000Z</published>
-    <updated>2017-10-27T09:49:38.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近准备着手跳进 <a href="https://realm.io/cn/" target="_blank" rel="noopener">Realm</a> 的坑，如果你对 Realm 还不熟悉，可以看看我之前的一篇<a href="http://www.futantan.com/2015/10/29/Building-a-ToDo-A-Realm-and-Swift/">译文</a>。这里我们聊一聊，Realm 在使用之前，配置上的坑。（iOS 平台）</p><a id="more"></a><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>目前，我使用的是 Xcode 7.2，Realm Swift 的最新版本为 0.98.1。</p><h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><p>开始填坑，<strong>注意</strong> ：目前不支持 CocoaPods 1.0.0 版本，请一定使用 ~&gt; 0.39.0 的 pod 版本，如果你已经升级到 1.0 以后的版本，可以试试 <code>pod _0.39_ install</code> 来安装依赖，具体的步骤，<a href="https://realm.io/docs/swift/latest/" target="_blank" rel="noopener">官网</a>都有说明，我就不多说了。</p><p>当然，这个<strong>坑具有实效性</strong>，请以官网说明为准。</p><h2 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h2><p>默认的数据库存放位置为 你的应用文件夹下的 <code>Documents</code> 目录，默认会生成一个 <code>default.realm</code> 的数据库文件，当然，如果你找不到模拟器的应用目录的话，可以跑一下下面的代码，来查看路径：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="type">Realm</span>.<span class="type">Configuration</span>.defaultConfiguration.path!)</span><br></pre></td></tr></table></figure><p>祝大家玩儿的愉快！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近准备着手跳进 &lt;a href=&quot;https://realm.io/cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Realm&lt;/a&gt; 的坑，如果你对 Realm 还不熟悉，可以看看我之前的一篇&lt;a href=&quot;http://www.futantan.com/2015/10/29/Building-a-ToDo-A-Realm-and-Swift/&quot;&gt;译文&lt;/a&gt;。这里我们聊一聊，Realm 在使用之前，配置上的坑。（iOS 平台）&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Realm 入坑系列" scheme="http://www.futantan.com/categories/Realm-%E5%85%A5%E5%9D%91%E7%B3%BB%E5%88%97/"/>
-    
-    
-      <category term="Realm" scheme="http://www.futantan.com/tags/Realm/"/>
     
   </entry>
   
